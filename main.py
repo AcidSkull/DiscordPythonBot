@@ -1,19 +1,22 @@
 from dotenv import load_dotenv
-import discord, os
+from discord.ext import commands
+import os, discord
 
-class MyClient(discord.Client):
-    async def on_ready(self):
-        print('Logged on as {0}'.format(self.user))
+intents = discord.Intents.default()
+intents.members = True
+client = commands.Bot(command_prefix="/", intents=intents)
 
-    async def on_message(self, message):
-        print('Message from {0.author}: {0.content}'.format(message))
+@client.command()
+async def load(context, extension):
+    client.load_extension(f'cogs.{extension}')
 
+@client.command()
+async def unload(context, extension):
+    client.unload_extension(f'cogs.{extension}')
 
-def main():
-    load_dotenv()
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        client.load_extension(f'cogs.{filename[:-3]}')
 
-    client = MyClient()
-    client.run(os.getenv('API_KEY'))
-
-if __name__ == "__main__":
-    main()
+load_dotenv()
+client.run(os.getenv('API_KEY'))
