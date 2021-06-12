@@ -13,7 +13,12 @@ class Members(commands.Cog):
     async def on_member_join(self, member):
         channel = member.guild.system_channel
         if channel is not None:
-            await channel.send('Welcome {0.mention}.'.format(member))
+            embedVar = discord.Embed(
+                title=f'Welcome {member}!',
+                description=f'It is nice to greet you to {member.guild}. Remeber to be respectfull to another or we send you to the window of life.',
+                color=0x0efbe0)
+            embedVar.set_thumbnail(url=member.avatar_url)
+            await channel.send(embed=embedVar)
 
     @commands.command()
     async def ping(self, context):
