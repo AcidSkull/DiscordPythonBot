@@ -7,7 +7,8 @@ class Members(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print('Bot is ready!')
+        print('\033[92m' + 'Bot is ready!' + '\033[0m')
+        await self.client.change_presence(activity=discord.Game('Minecraft 2'))
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -24,5 +25,17 @@ class Members(commands.Cog):
     async def ping(self, context):
         await context.send('Pong!')
 
+    @commands.command()
+    @commands.has_permissions(kick_members=True)
+    async def kick(self, context, member : discord.Member, *, reason=' unknown reasone'):
+        await member.kick(reason=reason)
+        await context.send(f'User {member} has been kicked for {reason}.')
+
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def ban(self, context, member : discord.Member, *, reason=' unknown reasone'):
+        await member.ban(reason=reason)
+        await context.send(f'User {member} has been ban for {reason}')
+        
 def setup(client):
     client.add_cog(Members(client))
