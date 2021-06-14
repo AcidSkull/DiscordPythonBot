@@ -36,6 +36,19 @@ class Members(commands.Cog):
     async def ban(self, context, member : discord.Member, *, reason=' unknown reasone'):
         await member.ban(reason=reason)
         await context.send(f'User {member} has been ban for {reason}')
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def unban(self, context, *, member):
+        banned_users = await context.guild.bans()
+        member_name, member_discriminator = member.split("#")
+
+        for entry in banned_users:
+            user = entry.user
+
+            if (user.name, user.discriminator) == (member_name, member_discriminator):
+                await context.guild.unban(user)
+                await context.send(f'User {user.mention} has been unbaned.')
         
 def setup(client):
     client.add_cog(Members(client))
