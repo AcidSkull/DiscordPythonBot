@@ -1,3 +1,4 @@
+from discord.ext.commands.errors import RoleNotFound
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord.ext.commands import MissingPermissions
@@ -19,6 +20,8 @@ async def unload(context, extension):
 async def on_command_error(context, error):
     if isinstance(error, MissingPermissions):
         await context.send('You have no perrmissions to runn this command!')
+    elif isinstance(error, RoleNotFound):
+        await context.send('This role dont\'t exist.')
     else:
         raise error
 

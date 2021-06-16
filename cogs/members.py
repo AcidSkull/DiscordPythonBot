@@ -34,6 +34,7 @@ class Members(commands.Cog):
     @commands.command()
     @commands.has_permissions(ban_members=True)
     async def ban(self, context, member : discord.Member, *, reason=' unknown reasone'):
+        print(reason)
         await member.ban(reason=reason)
         await context.send(f'User {member} has been ban for {reason}')
 
@@ -49,6 +50,18 @@ class Members(commands.Cog):
             if (user.name, user.discriminator) == (member_name, member_discriminator):
                 await context.guild.unban(user)
                 await context.send(f'User {user.mention} has been unbaned.')
+
+    @commands.command()
+    @commands.has_permissions(manage_roles=True)
+    async def addrole(self, context, member : discord.Member, *, role : discord.Role ):
+        await member.add_roles(role)
+        await context.send(f'User {member} has been promoted to {role}.')
+
+    @commands.command()
+    @commands.has_permissions(manage_roles=True)
+    async def delrole(self, context, member : discord.Member, *, role : discord.Role):
+        await member.remove_roles(role)
+        await context.send(f'User {member} has been degraded from {role}')
         
 def setup(client):
     client.add_cog(Members(client))
