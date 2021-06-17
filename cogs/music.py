@@ -14,5 +14,13 @@ class Music(commands.Cog):
         else:
             await context.send('Bot is connectedd to another channel.', delete_after=10)
 
+    @commands.command()
+    async def leave(self, context):
+        voice = discord.utils.get(self.client.voice_clients, guild=context.guild)
+        if voice == None:
+            await context.send('Bot is not connected to any channel so it can\'t leave.', delete_after=10)
+        else:
+            await voice.disconnect()
+
 def setup(client):
     client.add_cog(Music(client))
