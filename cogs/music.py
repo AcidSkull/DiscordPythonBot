@@ -40,6 +40,27 @@ class Music(commands.Cog):
         voice_client.play(discord.FFmpegPCMAudio('music.mp3'))
 
     @commands.command()
+    async def pause(self, context):
+        voice_client = discord.utils.get(self.client.voice_clients, guild=context.guild)
+        if voice_client.is_playing():
+            voice_client.pause()
+        else:
+            await context.send('Currently nothing is playing.', delete_after=10)
+    
+    @commands.command()
+    async def resume(self, context):
+        voice_client = discord.utils.get(self.client.voice_clients, guild=context.guild)
+        if voice_client.is_paused():
+            voice_client.resume()
+        else:
+            await context.send('The audio is not paused.', delete_after=10)
+
+    @commands.command()
+    async def stop(self, context):
+        voice_client = discord.utils.get(self.client.voice_clients, guild=context.guild)
+        voice_client.stop()
+
+    @commands.command()
     async def leave(self, context):
         voice_client = discord.utils.get(self.client.voice_clients, guild=context.guild)
         if voice_client == None:
