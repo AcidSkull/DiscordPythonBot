@@ -19,7 +19,7 @@ class Members(commands.Cog):
                 description=f'It is nice to greet you to {member.guild}. Remeber to be respectfull to another or we send you to the window of life.',
                 color=0x0efbe0)
             embedVar.set_thumbnail(url=member.avatar_url)
-            await channel.send(embed=embedVar)
+            await member.send(embed=embedVar)
 
     @commands.command()
     async def ping(self, context):
