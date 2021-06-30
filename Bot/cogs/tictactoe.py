@@ -70,6 +70,14 @@ class tictactoe(commands.Cog):
                 self.is_over = True
                 self.poles = ['-'] * 9
 
+    @commands.command()
+    async def quit(self, context):
+        if context.author in (self.player1, self.player2):
+            self.is_over = True
+            self.poles = ['-'] * 9
+            return await context.send('The game was aborted!')
+        return await context.send('You can\'t cancel the game!')
+
 
 def setup(client):
     client.add_cog(tictactoe(client))
